@@ -195,27 +195,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Are the Warriors the best at drafting rookies recently? The Warriors have won four championships since 2015, cementing themselves as a modern-day dynasty, with that comes low draft pick numbers. In the last 10 drafts, the warriors have had an average first round pick at pick 19, but have been able to develop late-round rookies into key players that have contributed to their continued success. I am comparing the warriors picks to other players drafted just behind them to see if they truly drafted the best guy available at the time</p>
+<p>Are the Warriors the best at drafting rookies recently?</p>
+<p>The Warriors have won four championships since 2015, cementing themselves as a modern-day dynasty. With being a playoff contender year after year comes low draft picks. In the last 10 drafts, the Warriors have had an average first round pick at pick 19, but have been able to develop late-round rookies into key players that have contributed to their continued success.</p>
+<p>Even though the Warriors have had an average draft pick of 19, the question remains; are the Warriors the best at drafting and developing rookies?</p>
+<p>The first question we will answer is “Was Jonathan Kuminga the correct choice for the Warriors in the 2021 NBA Draft?” Here’s Kuminga’s stats per 36 minutes compared to similar players drafted behind him.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.4     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Kuminga_Stat_Chart <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/2021_Draft_Kuminga.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Kuminga_Stat_Chart <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/leviottman/Desktop/School/Office Documents/Spring 2025/Sports Data Analysis/Major Assignment/sportsBlog/posts/warriors-nba-draft/data/2021_Draft_Kuminga.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stderr">
 <pre><code>New names:
@@ -237,51 +224,157 @@ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Kuminga_Stat_Chart_long <span class="ot">&lt;-</span> Kuminga_Stat_Chart <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(Player, PTSper36, TRBper36, ASTper36) <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(PTSper36, TRBper36, ASTper36), <span class="at">names_to =</span> <span class="st">"Stat"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Stat =</span> <span class="fu">factor</span>(Stat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"PTSper36"</span>, <span class="st">"TRBper36"</span>, <span class="st">"ASTper36"</span>)),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Stat =</span> <span class="fu">recode</span>(Stat, </span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PTSper36"</span> <span class="ot">=</span> <span class="st">"Points Per 36 Minutes"</span>, </span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"TRBper36"</span> <span class="ot">=</span> <span class="st">"Total Rebounds Per 36 Minutes"</span>, </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"ASTper36"</span> <span class="ot">=</span> <span class="st">"Assists Per 36 Minutes"</span>),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Color =</span> <span class="fu">case_when</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>,</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>,</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>, </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D1160"</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D1160"</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D1160"</span>, </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"grey"</span>  <span class="co"># Default color for other players</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Kuminga_Stat_Chart_long, <span class="fu">aes</span>(<span class="at">x =</span> Player, <span class="at">y =</span> Value, <span class="at">fill =</span> Color)) <span class="sc">+</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">str_wrap</span>(<span class="st">"Do the Warriors have a budding superstar in Jonathan Kuminga? Only time will tell for the fourth-year Forward drafted 7th overall in the 2021 NBA Draft"</span>, <span class="at">width =</span> <span class="dv">63</span>),</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"A comparison of Jonathan Kuminga's career stats the next drafted player at his position in the NBA 2021 Draft, adjusted using 'Per 36' minutes stats."</span>, <span class="at">width =</span> <span class="dv">90</span>),</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Player"</span>, </span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Per Game"</span>,</span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Data from Basketball-Reference.com"</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Stat, <span class="at">scales =</span> <span class="st">"free_y"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Kuminga_Stat_Chart_long <span class="ot">&lt;-</span> Kuminga_Stat_Chart <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">select</span>(Player, PTSper36, TRBper36, ASTper36) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(PTSper36, TRBper36, ASTper36), <span class="at">names_to =</span> <span class="st">"Stat"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Image =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">~</span> <span class="st">"data/Warriors.png"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">~</span> <span class="st">"data/hornets.png"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">~</span> <span class="st">"data/nets.png"</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">Stat =</span> <span class="fu">factor</span>(Stat, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"PTSper36"</span>, <span class="st">"TRBper36"</span>, <span class="st">"ASTper36"</span>)),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">Stat =</span> <span class="fu">recode</span>(Stat, </span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"PTSper36"</span> <span class="ot">=</span> <span class="st">"Points Per 36 Minutes"</span>, </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"TRBper36"</span> <span class="ot">=</span> <span class="st">"Total Rebounds Per 36 Minutes"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"ASTper36"</span> <span class="ot">=</span> <span class="st">"Assists Per 36 Minutes"</span>),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">Color =</span> <span class="fu">case_when</span>(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Jonathan Kuminga"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#1D428A"</span>, </span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#00788C"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#00788C"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"James Bouknight"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#00788C"</span>, </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Points Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Total Rebounds Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>      Player <span class="sc">==</span> <span class="st">"Ziaire Williams"</span> <span class="sc">&amp;</span> Stat <span class="sc">==</span> <span class="st">"Assists Per 36 Minutes"</span> <span class="sc">~</span> <span class="st">"#C6CFD4"</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Kuminga_Stat_Chart_long, <span class="fu">aes</span>(<span class="at">x =</span> Player, <span class="at">y =</span> Value, <span class="at">fill =</span> Color, <span class="at">image =</span> Image)) <span class="sc">+</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_image</span>(</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">image =</span> Image, <span class="at">y =</span> Value <span class="sc">-</span> <span class="dv">1</span>),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="dv">1</span>),</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fl">0.07</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Player"</span>, </span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Per Game"</span>,</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">str_wrap</span>(<span class="st">"Jonathan Kuminga is a future superstar given enough minutes"</span>, <span class="at">width =</span> <span class="dv">63</span>),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">str_wrap</span>(<span class="st">"More minutes for Kuminga will allow him to flourish"</span>),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By: Levi Ottman  |  Source: Basketball-Reference.com"</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>),</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>, <span class="at">face =</span> <span class="st">"italic"</span>),</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_identity</span>() <span class="sc">+</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Stat, <span class="at">scales =</span> <span class="st">"fixed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>Chart 2</p>
+<p>Many basketball advanced statstics can be hard to understand for the common viewer, one that is easier to understand is Win Shares. “According to Basketball Reference: ‘’Win Shares is a player statistic which attempts to divvy up credit for team success to the individuals on the team’’.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NBA2023Draft <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/leviottman/Desktop/School/Office Documents/Spring 2025/Sports Data Analysis/Major Assignment/sportsBlog/posts/warriors-nba-draft/data/NBA2023Draft.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 58 Columns: 22
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "," chr
+(3): Tm, Player, College dbl (19): Rk, Pk, Yrs, G, MP...8, PTS...9, TRB...10,
+AST...11, FG%, 3P%, FT%...
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `MP` -&gt; `MP...8`
+• `PTS` -&gt; `PTS...9`
+• `TRB` -&gt; `TRB...10`
+• `AST` -&gt; `AST...11`
+• `MP` -&gt; `MP...15`
+• `PTS` -&gt; `PTS...16`
+• `TRB` -&gt; `TRB...17`
+• `AST` -&gt; `AST...18`</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Warriors_NBA2023Draft <span class="ot">&lt;-</span> NBA2023Draft <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Hightlight =</span> <span class="fu">ifelse</span>(Pk <span class="sc">==</span> <span class="dv">19</span> <span class="sc">|</span> Pk <span class="sc">==</span> <span class="dv">57</span>, <span class="st">"Highlight"</span>, <span class="st">"Normal"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">arrange</span>(<span class="fu">desc</span>(WS)) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>Warriors_NBA2023Draft <span class="ot">&lt;-</span> Warriors_NBA2023Draft <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Highlight =</span> <span class="fu">ifelse</span>(Pk <span class="sc">==</span> <span class="dv">19</span> <span class="sc">|</span> Pk <span class="sc">==</span> <span class="dv">57</span>, <span class="st">"Warriors"</span>, <span class="st">"Non-Warriors"</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Warriors_NBA2023Draft, <span class="fu">aes</span>(<span class="at">x =</span> WS, <span class="at">y =</span> <span class="fu">factor</span>(Pk))) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill =</span> Highlight), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">width =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(WS, <span class="dv">2</span>)), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">1.8</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">3.2</span>, <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> Player), <span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">1.82</span>, <span class="at">fontface =</span> <span class="st">"italic"</span>) <span class="sc">+</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Top 10 Rookies ranked on Win Shares in the 2023 NBA Draft"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"More Win Shares, the more impact on their team's success"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Win Shares"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Draft Pick"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"By: Levi Ottman  |  Source: Basketball-Reference.com"</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Warriors"</span> <span class="ot">=</span> <span class="st">"#1D428A"</span>, <span class="st">"Non-Warriors"</span> <span class="ot">=</span> <span class="st">"gray"</span>)) <span class="sc">+</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_family =</span> <span class="st">"sans"</span>) <span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">hjust =</span> <span class="dv">0</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">"plain"</span>),</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span>,</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>, <span class="dv">17</span>) <span class="sc">+</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Rookies on the Golden State Warriors normally do not get that many minutes, due to the star power and their starting lineup with Stephen Curry, Draymond Green, Jimmy Butler and other star players who have a lot of minutes per game. When a younger Warrior player I able to break into the rotation and get sizable minutes their points per game goes up and they are able to develop into a star player for the warriors.</p>
+<p>The Golden State Warriors recently have been stuck between two eras of Warrior basketball: ‘The Big Three’’, and the development of their younger players. Preparing for a future without Stephen Curry and company is something the Warriors need to accomplish, but there is only 240 minutes to distrubute between 8 to 10 players a game.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(<span class="st">"sportsBlog/posts/warriors-nba-draft/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>character(0)</code></pre>
+</div>
+</div>
+<p>Overall, it is safe to say the Warriors are one of the best when it comes to drafting players late in the NBA Draft, and developing them into the type of player they are looking for.</p>
 
 
 
